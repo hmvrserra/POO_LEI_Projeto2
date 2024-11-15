@@ -4,21 +4,13 @@ import objects.*;
 import pt.iscte.poo.gui.ImageGUI;
 import pt.iscte.poo.utils.Direction;
 import pt.iscte.poo.utils.Point2D;
-
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
-
-import pt.iscte.poo.utils.Point2D;
-import pt.iscte.poo.gui.ImageGUI;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Room {
-	//private Point2D heroStartingPosition = new Point2D(1, 1);
 	private Manel manel;
 	private List<GameObject> gameObjects = new ArrayList<>();
 
@@ -28,11 +20,11 @@ public class Room {
 		ImageGUI.getInstance().addImages(gameObjects);
 	}
 
-	public void moveManel(Direction direction) {
-		manel.move(direction);
+	public void moveManel(Direction direction, Room room) {
+		manel.move(direction, room);
 	}
 
-	private void addBackground() {
+	public void addBackground() {
 		for (int x = 0; x < 10; x++) {
 			for (int y = 0; y < 10; y++) {
 				gameObjects.add(new Floor(new Point2D(x, y)));
@@ -84,7 +76,18 @@ public class Room {
 		}
 	}
 
+	public boolean isCollision(Point2D position) {
+		for (GameObject obj : gameObjects) {
+			if (obj instanceof Collidable && obj.getPosition().equals(position)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
+	public void update() {
+		manel.update(this);
+	}
 
 	@Override
 

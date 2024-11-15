@@ -1,7 +1,9 @@
 package objects;
 
+import pt.iscte.poo.game.Room;
 import pt.iscte.poo.utils.Direction;
 import pt.iscte.poo.utils.Point2D;
+import pt.iscte.poo.utils.Vector2D;
 
 public abstract class Character extends GameObject {
     private int health;
@@ -29,12 +31,25 @@ public abstract class Character extends GameObject {
         this.damage = damage;
     }
 
-    public void move(Direction direction) {
+    public void move(Direction direction, Room room) {
         Point2D newPosition = getPosition().plus(direction.asVector());
         if (newPosition.getX() < 0 || newPosition.getY() < 0 || newPosition.getX() >= 10 || newPosition.getY() >= 10) {
             return;
         }
-        //COMPLETAR RESTRIÇÕES DE MOVIMENTO
-        setPosition(newPosition);
+        if (!room.isCollision(newPosition)) {
+            setPosition(newPosition);
+        }
     }
+
+    public void applyGravity(Room room) {
+        Point2D belowPosition = getPosition().plus(new Vector2D(0, 1)); // Position directly below the character
+        if (!room.isCollision(belowPosition)) {
+            setPosition(belowPosition);
+        }
+    }
+
+    public void update(Room room) {
+        applyGravity(room);
+    }
+
 }
