@@ -63,13 +63,16 @@ public class Room {
 							gameObjects.add(manel);
 							break;
 						case 'G':
-							gameObjects.add(new Door(position));
+							gameObjects.add(new DonkeyKong(position));
 							break;
 						case 't':
 							gameObjects.add(new Trap(position));
 							break;
 						case 's':
 							gameObjects.add(new Sword(position));
+							break;
+						case '0':
+							gameObjects.add(new Door(position));
 							break;
 						//ADICIONAR O RESTO DOS OBJETOS
 					}
